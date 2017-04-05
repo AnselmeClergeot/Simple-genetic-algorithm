@@ -20,6 +20,11 @@ int Individual::get_chromosome_length() const
     return m_genes.size();
 }
 
+void Individual::set_gene(const int pos, const int value)
+{
+    m_genes[pos] = value;
+}
+
 std::ostream &operator<<(std::ostream &stream, const Individual &debug)
 {
     stream << "chromosome : ";
@@ -32,7 +37,7 @@ std::ostream &operator<<(std::ostream &stream, const Individual &debug)
     return stream;
 }
 
-void Individual::set_fitness(const int value)
+void Individual::set_fitness(const double value)
 {
     m_fitness = value;
 }
@@ -50,7 +55,7 @@ void Individual::mutate(const double probability, const int max_variation)
     }
 }
 
-int Individual::get_fitness() const
+double Individual::get_fitness() const
 {
     return m_fitness;
 }

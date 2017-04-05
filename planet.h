@@ -19,6 +19,8 @@ public:
 
 private:
     std::vector<Individual> m_individuals;
+    std::vector<Individual> m_selected_to_mate;
+    std::vector<Individual> m_new_individuals;
     FitnessCalculator m_calculator;
 
     void refresh_order();
