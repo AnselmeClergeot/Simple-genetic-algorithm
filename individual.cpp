@@ -52,6 +52,11 @@ void Individual::mutate(const double probability, const int max_variation)
         double random_variation {RandomGenerators::real_between(-max_variation, +max_variation)};
 
         m_genes[random_pos] += random_variation;
+
+        if(m_genes[random_pos] > 9)
+            m_genes[random_pos]-=10;
+        if(m_genes[random_pos] < 0)
+            m_genes[random_pos] += 10;
     }
 }
 
