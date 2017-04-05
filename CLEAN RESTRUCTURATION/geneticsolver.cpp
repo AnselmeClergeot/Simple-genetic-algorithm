@@ -1,4 +1,5 @@
 #include "geneticsolver.h"
+#include <cassert>
 
 GeneticSolver::GeneticSolver() :
     m_population_size(10),
@@ -9,7 +10,9 @@ GeneticSolver::GeneticSolver() :
     m_mutate_probability(0.05),
     m_crossover_mode(CrossoverMode::SinglePoint),
     m_end_condition(EndCondition::MaxIteration),
-    m_start_population(StartPopulation::Random)
+    m_start_population(StartPopulation::Random),
+    m_generation_mode(GenerationMode::Describe),
+    m_population()
 
 {}
 
@@ -63,9 +66,26 @@ void GeneticSolver::set_generation_mode(const GenerationMode mode)
     m_generation_mode = mode;
 }
 
-void GeneticSolver::start_solving()
+void GeneticSolver::go_to_next_generation()
 {
 
+}
+
+void GeneticSolver::solve_entirely()
+{
+
+}
+
+std::vector<Individual> GeneticSolver::get_population() const
+{
+    return m_population;
+}
+
+Individual GeneticSolver::get_best_individual() const
+{
+    assert(!m_population.empty());
+
+    return m_population[0];
 }
 
 int GeneticSolver::get_population_size() const

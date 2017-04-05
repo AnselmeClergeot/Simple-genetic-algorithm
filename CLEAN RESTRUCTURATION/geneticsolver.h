@@ -1,5 +1,7 @@
 #ifndef GENETICSOLVER_H
 #define GENETICSOLVER_H
+#include "individual.h"
+#include <vector>
 
 enum CrossoverMode
 {
@@ -48,9 +50,11 @@ class GeneticSolver
         StartPopulation get_start_population() const;
         GenerationMode get_generation_mode() const;
 
-        void start_solving();
+        void go_to_next_generation();
+        void solve_entirely();
 
-
+        std::vector<Individual> get_population() const;
+        Individual get_best_individual() const;
 
     private:
         int m_population_size, m_digits_number, m_searched_sum, m_number_parents_selected, m_generation_number;
@@ -60,6 +64,8 @@ class GeneticSolver
         EndCondition m_end_condition;
         StartPopulation m_start_population;
         GenerationMode m_generation_mode;
+
+        std::vector<Individual> m_population;
 
 };
 
