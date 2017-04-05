@@ -6,8 +6,10 @@ Crossovers::Crossovers()
 
 }
 
-std::array<Individual, 2> Crossovers::get_children(const Individual &lhs, const Individual &rhs)
+std::vector<Individual> Crossovers::get_children(const Individual &lhs, const Individual &rhs)
 {
+    std::vector<Individual> children;
+
     const int chromosome_length {lhs.get_chromosome_length()};
 
     Individual child_a(chromosome_length);
@@ -29,5 +31,8 @@ std::array<Individual, 2> Crossovers::get_children(const Individual &lhs, const 
         }
     }
 
-    return std::array<Individual, 2> {child_a, child_b};
+    children.emplace_back(child_a);
+    children.emplace_back(child_b);
+
+    return children;
 }

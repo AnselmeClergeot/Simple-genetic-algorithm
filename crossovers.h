@@ -7,7 +7,7 @@ class Crossovers
 {
 public:
     Crossovers();
-    static std::array<Individual, 2> get_children(const Individual &lhs, const Individual &rhs);
+    static std::vector<Individual> get_children(const Individual &lhs, const Individual &rhs);
 };
 
 #endif // CROSSOVERS_H
