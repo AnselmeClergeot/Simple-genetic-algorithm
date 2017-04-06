@@ -1,6 +1,47 @@
 #include "individual.h"
+#include "randomnumgenerator.h"
 
-Individual::Individual()
+Individual::Individual(const unsigned int chromosome_length) : m_chromosome_length(chromosome_length), m_fitness(), m_operational(), m_genes()
+{
+    for(int i {0}; i < chromosome_length; i++)
+    {
+        m_genes.push_back(RandomNumGenerator::get_real_between(0, 9));
+    }
+}
+
+Individual::Individual(const std::vector<unsigned short> &genes) : m_chromosome_length(genes.size()), m_fitness(), m_operational(), m_genes(genes)
 {
 
+}
+
+unsigned int Individual::get_chromosome_length() const
+{
+    return m_chromosome_length;
+}
+
+double Individual::get_fitness() const
+{
+    return m_fitness;
+}
+
+bool Individual::is_operational() const
+{
+    return m_operational;
+}
+
+void Individual::set_operational(const bool operational)
+{
+    m_operational = operational;
+}
+
+std::ostream &operator<<(std::ostream &stream, const Individual &indiv)
+{
+    stream << "chromosome : ";
+
+    for(unsigned short gene : indiv.m_genes)
+        stream << gene;
+
+    stream << " | fitness : " << indiv.m_fitness;
+
+    return stream;
 }
