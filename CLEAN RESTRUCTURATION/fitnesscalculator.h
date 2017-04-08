@@ -6,11 +6,14 @@
 class FitnessCalculator
 {
 public:
-    FitnessCalculator(const unsigned int wanted_sum, std::vector<Individual> *individuals);
+    FitnessCalculator(std::vector<Individual> *population);
+
+    void calculate_all_fitnesses();
+    void set_searched_sum(const int sum);
 
 private:
     unsigned int m_wanted_sum;
-    std::vector<Individual> *m_individuals;
+    std::vector<Individual> *m_population;
 };
 
 #endif // FITNESSCALCULATOR_H

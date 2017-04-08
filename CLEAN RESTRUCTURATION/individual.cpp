@@ -34,6 +34,19 @@ void Individual::set_operational(const bool operational)
     m_operational = operational;
 }
 
+void Individual::set_fitness(const double fitness)
+{
+    m_fitness = fitness;
+}
+
+void Individual::set_gene(const unsigned int pos, const unsigned short gene)
+{
+    if(gene < 0 || gene > 9)
+        m_genes[pos] = 0;
+    else
+        m_genes[pos] = gene;
+}
+
 std::ostream &operator<<(std::ostream &stream, const Individual &indiv)
 {
     stream << "chromosome : ";
@@ -41,7 +54,20 @@ std::ostream &operator<<(std::ostream &stream, const Individual &indiv)
     for(unsigned short gene : indiv.m_genes)
         stream << gene;
 
-    stream << " | fitness : " << indiv.m_fitness;
+    if(!indiv.m_operational)
+        stream << " | fitness : " << indiv.m_fitness;
+    else
+        stream << " | perfect solution !";
 
     return stream;
+}
+
+unsigned short Individual::get_gene(const unsigned int pos) const
+{
+    return m_genes[pos];
+}
+
+bool IndividualComparator::operator ()(const Individual &lhs, const Individual &rhs)
+{
+    return lhs.m_fitness > rhs.m_fitness;
 }
