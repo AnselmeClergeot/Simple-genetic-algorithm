@@ -1,24 +1,45 @@
 #include "fitnesscalculator.h"
-#include <cmath>
+#include <cassert>
 
-FitnessCalculator::FitnessCalculator(const int wanted_value) : m_wanted_value(wanted_value)
+FitnessCalculator::FitnessCalculator(std::vector<Individual> *population) : m_population(population)
 {
 
 }
 
-void FitnessCalculator::calculate_fitness_of(Individual &individual) const
+void FitnessCalculator::set_searched_sum(const int sum)
 {
-    int value_of_individual {0};
-    int max_error_possible { std::max(m_wanted_value, std::abs(m_wanted_value - 9 * individual.get_chromosome_length())) };
+    m_wanted_sum = sum;
+}
 
-    for(int i = 0; i < individual.get_chromosome_length(); i++)
+void FitnessCalculator::calculate_all_fitnesses()
+{
+    assert(!m_population->empty());
+
+    const int max_error_possible { std::max(static_cast<int>(m_wanted_sum), std::abs(static_cast<int>(m_wanted_sum - 9 * m_population->at(0).get_chromosome_length()))) };
+
+    for(Individual &indiv : *m_population)
     {
-        value_of_individual += individual.get_gene(i);
+        int value_of_individual {0};
+
+        for(unsigned short gene : indiv.m_genes)
+        {
+            value_of_individual += gene;
+        }
+
+        if(value_of_individual == m_wanted_sum)
+        {
+            indiv.set_operational(true);
+            indiv.set_fitness(1000);
+            continue;
+        }
+        else
+            indiv.set_operational(false);
+
+
+        const int error { std::abs(static_cast<int>(value_of_individual - m_wanted_sum)) };
+
+        const double fitness {(max_error_possible - error) / static_cast<double>(max_error_possible) * 1000};
+
+        indiv.set_fitness(fitness);
     }
-
-    int error { std::abs(value_of_individual - m_wanted_value) };
-
-    double fitness {(max_error_possible - error) / static_cast<double>(max_error_possible) * 100};
-
-    individual.set_fitness(fitness);
 }

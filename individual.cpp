@@ -1,63 +1,22 @@
 #include "individual.h"
-#include "randomgenerators.h"
-#include <algorithm>
+#include "randomnumgenerator.h"
 
-Individual::Individual(const int chromosome_length) : m_genes(chromosome_length), m_fitness(0)
+Individual::Individual(const unsigned int chromosome_length) : m_chromosome_length(chromosome_length), m_fitness(), m_operational(), m_genes()
 {
-    for(int i = 0; i < chromosome_length; i++)
+    for(int i {0}; i < chromosome_length; i++)
     {
-        m_genes[i] = RandomGenerators::real_between(0, 10);
+        m_genes.push_back(RandomNumGenerator::get_real_between(0, 9));
     }
 }
 
-int Individual::get_gene(const int pos) const
+Individual::Individual(const std::vector<unsigned short> &genes) : m_chromosome_length(genes.size()), m_fitness(), m_operational(), m_genes(genes)
 {
-    return m_genes[pos];
+
 }
 
-int Individual::get_chromosome_length() const
+unsigned int Individual::get_chromosome_length() const
 {
-    return m_genes.size();
-}
-
-void Individual::set_gene(const int pos, const int value)
-{
-    m_genes[pos] = value;
-}
-
-std::ostream &operator<<(std::ostream &stream, const Individual &debug)
-{
-    stream << "chromosome : ";
-    for(int gene : debug.m_genes)
-    {
-        stream << gene;
-    }
-
-    stream << " | fitness : " << debug.m_fitness;
-    return stream;
-}
-
-void Individual::set_fitness(const double value)
-{
-    m_fitness = value;
-}
-
-void Individual::mutate(const double probability, const int max_variation)
-{
-
-    if(RandomGenerators::real_between(0, 1) < probability)
-    {
-        int random_pos {RandomGenerators::real_between(0, m_genes.size()-1)};
-
-        double random_variation {RandomGenerators::real_between(-max_variation, +max_variation)};
-
-        m_genes[random_pos] += random_variation;
-
-        if(m_genes[random_pos] > 9)
-            m_genes[random_pos]-=10;
-        if(m_genes[random_pos] < 0)
-            m_genes[random_pos] += 10;
-    }
+    return m_chromosome_length;
 }
 
 double Individual::get_fitness() const
@@ -65,7 +24,50 @@ double Individual::get_fitness() const
     return m_fitness;
 }
 
-bool IndividualComparator::operator()(const Individual &lhs, const Individual &rhs)
+bool Individual::is_operational() const
 {
-    return lhs.get_fitness() > rhs.get_fitness();
+    return m_operational;
+}
+
+void Individual::set_operational(const bool operational)
+{
+    m_operational = operational;
+}
+
+void Individual::set_fitness(const double fitness)
+{
+    m_fitness = fitness;
+}
+
+void Individual::set_gene(const unsigned int pos, const unsigned short gene)
+{
+    if(gene < 0 || gene > 9)
+        m_genes[pos] = 0;
+    else
+        m_genes[pos] = gene;
+}
+
+std::ostream &operator<<(std::ostream &stream, const Individual &indiv)
+{
+    stream << "chromosome : ";
+
+    for(unsigned short gene : indiv.m_genes)
+        stream << gene;
+
+    if(!indiv.m_operational)
+        stream << " | fitness : " << indiv.m_fitness;
+    else
+        stream << " | perfect solution !";
+
+    return stream;
+}
+
+unsigned short Individual::get_gene(const unsigned int pos) const
+{
+    return m_genes[pos];
+}
+
+bool IndividualComparator::operator ()(const Individual &lhs, const Individual &rhs)
+{
+    return lhs.m_fitness > rhs.m_fitness;
 }

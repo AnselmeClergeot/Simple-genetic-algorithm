@@ -5,28 +5,37 @@
 
 class Individual
 {
-    public:
-        Individual(const int chromosome_length);
+    friend class FitnessCalculator;
+    friend class IndividualComparator;
 
-        int get_gene(const int pos) const;
-        int get_chromosome_length() const;
+public:
+    Individual(const unsigned int chromosome_length);
+    Individual(const std::vector<unsigned short> &genes);
 
-        void set_gene(const int pos, const int value);
-        void set_fitness(const double value);
-        double get_fitness() const;
+    unsigned int get_chromosome_length() const;
+    double get_fitness() const;
+    bool is_operational() const;
+    unsigned short get_gene(const unsigned int pos) const;
 
-        void mutate(const double probability, const int max_variation);
+    void set_operational(const bool operational);
+    void set_fitness(const double fitness);
 
-    private:
-        std::vector<int> m_genes;
-        double m_fitness;
+    void set_gene(const unsigned int pos, const unsigned short gene);
 
-    friend std::ostream &operator<<(std::ostream &stream, const Individual &debug);
+    friend std::ostream &operator<<(std::ostream &stream, const Individual &indiv);
+
+
+
+private:
+    unsigned int m_chromosome_length;
+    std::vector<unsigned short> m_genes;
+    double m_fitness;
+    bool m_operational;
 };
 
 class IndividualComparator
 {
-public :
+public:
     bool operator()(const Individual &lhs, const Individual &rhs);
 };
 

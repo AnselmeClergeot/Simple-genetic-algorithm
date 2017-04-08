@@ -52,6 +52,7 @@ class GeneticSolver
 
         void go_to_next_generation();
         void solve_entirely();
+        void describe() const;
 
         std::vector<Individual> get_population() const;
         Individual get_best_individual();

@@ -1,16 +1,19 @@
 #ifndef FITNESSCALCULATOR_H
 #define FITNESSCALCULATOR_H
+#include <vector>
 #include "individual.h"
 
 class FitnessCalculator
 {
 public:
-    FitnessCalculator(const int wanted_value);
+    FitnessCalculator(std::vector<Individual> *population);
 
-    void calculate_fitness_of(Individual &individual) const;
+    void calculate_all_fitnesses();
+    void set_searched_sum(const int sum);
 
 private:
-    int m_wanted_value;
+    unsigned int m_wanted_sum;
+    std::vector<Individual> *m_population;
 };
 
 #endif // FITNESSCALCULATOR_H

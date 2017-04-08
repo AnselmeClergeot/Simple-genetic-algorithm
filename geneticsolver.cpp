@@ -108,6 +108,7 @@ void GeneticSolver::go_to_next_generation()
     do_mutations();
 
     m_current_generation++;
+    m_fitness_calculator.calculate_all_fitnesses();
 }
 
 void GeneticSolver::solve_entirely()
@@ -252,4 +253,12 @@ EndCondition GeneticSolver::get_end_condition() const
 StartPopulation GeneticSolver::get_start_population() const
 {
     return m_start_population;
+}
+
+void GeneticSolver::describe() const
+{
+    std::cout << "Here are all individuals of the population, from best to worst :" << std::endl;
+
+    for(const Individual indiv : m_population)
+        std::cout << indiv << std::endl;
 }
