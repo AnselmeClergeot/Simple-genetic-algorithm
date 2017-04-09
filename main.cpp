@@ -6,11 +6,10 @@ using namespace std;
 
 int main()
 {
-
     int searched_sum, population_size, digits_number;
 
     std::cout << "*** BASIC GENETIC ALGORITHM PROBLEM SOLVING BY A.C ***" << std::endl << std::endl;
-    std::cout << "The goal of this GA is to find numbers which the sum \nof all its digits give a defined number." << std::endl;
+    std::cout << "The goal of this GA is to find a number which the sum \nof all its digits give a defined number." << std::endl;
     std::cout << "Solutions are represented as common numbers in base 10." << std::endl;
     std::cout << std::endl;
     std::cout << "___PLEASE SET BASIC PARAMETERS___" << std::endl << std::endl;
@@ -24,7 +23,7 @@ int main()
     std::cout << std::endl;
 
     double mutate_probability, max_mutate, min_mutate;
-    int generations_number;
+    int generations_number, parents_number, crossover_mode;
 
     std::cout << "Number of individuals in population : ";
     std::cin >> population_size;
@@ -36,8 +35,12 @@ int main()
     std::cin >> max_mutate;
     std::cout << "Number of generations : ";
     std::cin >> generations_number;
+    std::cout << "Number of parents selected each generation : ";
+    std::cin >> parents_number;
+    std::cout << "Crossover method (0 : single point, 1 : two points, 2 : uniform) : ";
+    std::cin >> crossover_mode;
 
-    std::cout << std::endl << "PROCESSING...";
+    std::cout << std::endl << "PROCESSING... CAN BE LONG...";
 
 
     GeneticSolver solver {};
@@ -49,15 +52,17 @@ int main()
     solver.set_mutate_probability(mutate_probability);
     solver.set_min_mutate_variation(min_mutate);
     solver.set_max_mutate_variation(max_mutate);
+    solver.set_number_of_parents_selected(parents_number);
+    solver.set_crossover_mode(static_cast<CrossoverMode>(crossover_mode));
 
     for(int i {0}; i < generations_number; i++)
     {
         solver.go_to_next_generation();
     }
 
-    std::cout << "DONE !" << std::endl << std::endl;
+    std::cout << " DONE !" << std::endl << std::endl;
 
-    solver.describe();
+    std::cout << solver.get_best_individual();
 
     return 0;
 }

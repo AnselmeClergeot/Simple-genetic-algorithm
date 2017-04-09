@@ -5,7 +5,7 @@ Individual::Individual(const unsigned int chromosome_length) : m_chromosome_leng
 {
     for(int i {0}; i < chromosome_length; i++)
     {
-        m_genes.push_back(RandomNumGenerator::get_real_between(0, 9));
+        m_genes.push_back(RandomNumGenerator::get_real_between(0, 10));
     }
 }
 
@@ -41,9 +41,7 @@ void Individual::set_fitness(const double fitness)
 
 void Individual::set_gene(const unsigned int pos, const unsigned short gene)
 {
-    if(gene < 0 || gene > 9)
-        m_genes[pos] = 0;
-    else
+    if(gene >= 0 && gene <= 9)
         m_genes[pos] = gene;
 }
 

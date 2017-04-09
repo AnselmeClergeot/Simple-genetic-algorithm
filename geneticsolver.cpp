@@ -155,11 +155,11 @@ void GeneticSolver::mate_parents()
                 break;
 
             case CrossoverMode::TwoPoint:
-
+                children = CrossoverMaker::two_points_crossover(m_parents[i], m_parents[j]);
                 break;
 
             case CrossoverMode::Uniform:
-
+                children = CrossoverMaker::uniform_crossover(m_parents[i], m_parents[j]);
                 break;
             default:
                 break;
@@ -187,7 +187,7 @@ void GeneticSolver::do_mutations()
 {
     for(Individual &indiv : m_population)
     {
-        const int gene_pos {RandomNumGenerator::get_real_between(0, indiv.get_chromosome_length()-1)};
+        const int gene_pos {RandomNumGenerator::get_real_between(0, indiv.get_chromosome_length())};
 
         if(RandomNumGenerator::get_real_between(0, 1) < m_mutate_probability)
         {
@@ -255,9 +255,10 @@ StartPopulation GeneticSolver::get_start_population() const
     return m_start_population;
 }
 
-void GeneticSolver::describe() const
+void GeneticSolver::describe()
 {
-    std::cout << "Here are all individuals of the population, from best to worst :" << std::endl;
+    std::sort(m_population.begin(), m_population.end(), IndividualComparator());
+    std::cout << "Here are all individuals of the population, from best to worst (note some can be equals) :" << std::endl;
 
     for(const Individual indiv : m_population)
         std::cout << indiv << std::endl;
