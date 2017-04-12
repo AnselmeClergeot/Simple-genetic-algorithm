@@ -258,7 +258,7 @@ StartPopulation GeneticSolver::get_start_population() const
 void GeneticSolver::describe()
 {
     std::sort(m_population.begin(), m_population.end(), IndividualComparator());
-    std::cout << "Here are all individuals of the population, from best to worst (note some can be equals) :" << std::endl;
+    std::cout << "Here are all individuals of the population, from best to worst\n(note some can be equals) :" << std::endl;
 
     for(const Individual indiv : m_population)
         std::cout << indiv << std::endl;

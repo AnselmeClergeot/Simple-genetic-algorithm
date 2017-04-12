@@ -41,21 +41,24 @@ void Individual::set_fitness(const double fitness)
 
 void Individual::set_gene(const unsigned int pos, const unsigned short gene)
 {
-    if(gene >= 0 && gene <= 9)
+    if(gene <= 9)
         m_genes[pos] = gene;
 }
 
 std::ostream &operator<<(std::ostream &stream, const Individual &indiv)
 {
-    stream << "chromosome : ";
+    stream << "CHROMOSOME : " << std::endl;
 
     for(unsigned short gene : indiv.m_genes)
         stream << gene;
+    stream << std::endl;
 
     if(!indiv.m_operational)
-        stream << " | fitness : " << indiv.m_fitness;
+        stream << "FITNESS : " << indiv.m_fitness << "/1000";
     else
-        stream << " | perfect solution !";
+        stream << "PERFECT SOLUTION";
+
+    stream << std::endl;
 
     return stream;
 }
