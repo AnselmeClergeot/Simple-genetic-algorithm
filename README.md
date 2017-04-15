@@ -4,3 +4,5 @@
 ### This project was coded in C++.
 ### You can download the demo and try by yourself this algorithm.
 ### Feel free to modify. Project under GPL3.
+
+<img src="https://github.com/AnselmeClergeot/Simple-genetic-algorithm/blob/master/github_pictures/app.PNG"></img>
